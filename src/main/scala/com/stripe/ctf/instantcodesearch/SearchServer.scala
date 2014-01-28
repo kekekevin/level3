@@ -23,13 +23,14 @@ class SearchServer(port : Int, id : Int) extends AbstractSearchServer(port, id) 
     }
   }
   override def index(path: String) = {
-    val indexer = new Indexer(path)
+    val indexer = new Indexer(path, id)
 
     FuturePool.unboundedPool {
       System.err.println("[node #" + id + "] Indexing path: " + path)
       indexer.index()
       System.err.println("[node #" + id + "] Writing index to: " + IndexPath)
       indexer.write(IndexPath)
+			System.err.println("index for id: " + id + " - " + indexer.idx.files)
       indexed = true
     }
 
