@@ -35,7 +35,7 @@ class Indexer(indexPath: String, id: Int) {
           val r = new InputStreamReader(new ByteArrayInputStream(bytes), decoder)
           val strContents = slurp(r)
 		  indexNum += 1
-		  if(indexNum % 4 == id)
+		  if((indexNum % 3) + 1 == id)
 		  	idx.addFile(root.relativize(file).toString, strContents)
         } catch {
           case e: IOException => {
