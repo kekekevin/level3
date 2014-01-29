@@ -36,11 +36,9 @@ abstract class AbstractSearchServer(port: Int, id: Int) extends TwitterServer {
     }
     catch {
       case err: HttpException => {
-				System.err.println(err)
 				Future.value(errorResponse(err.code, err.message))
 			}
       case e: Exception => {
-				System.err.println(e)
         Future.value(
           errorResponse(
             HttpResponseStatus.INTERNAL_SERVER_ERROR,
@@ -64,13 +62,11 @@ abstract class AbstractSearchServer(port: Int, id: Int) extends TwitterServer {
   }
 
   def querySuccessResponse(results: List[Match]): HttpResponse = {
-	  System.err.println("results: " + results)
     val response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK)
     val resultString = results
       .map {r => "\"" + r.path + ":" + r.line + "\""}
       .mkString("[", ",\n", "]")
     val content = "{\"success\": true,\n \"results\": " + resultString + "}"
-		System.err.println("content:" + content)
     response.setContent(copiedBuffer(content, UTF_8))
 
     response
